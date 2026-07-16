@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">自动钉钉打卡</string>
+    <string name="header_subtitle">定时自动完成钉钉打卡，上班不迟到</string>
+    <string name="accessibility_service_title">辅助功能</string>
+    <string name="accessibility_description">需要开启辅助功能以自动操作钉钉应用完成打卡</string>
+    <string name="check_in_time_title">打卡时间</string>
+    <string name="enable_accessibility">开启辅助功能</string>
+    <string name="accessibility_settings">前往设置</string>
+    <string name="start_check_in">开始自动打卡</string>
+    <string name="stop_check_in">停止自动打卡</string>
+    <string name="morning_time">上班打卡</string>
+    <string name="evening_time">下班打卡</string>
+    <string name="status_idle">等待启动</string>
+    <string name="status_running">运行中</string>
+    <string name="status_checking">正在打卡…</string>
+    <string name="status_enabled">已开启</string>
+    <string name="status_not_enabled">未开启</string>
+    <string name="last_check_in">上次打卡时间</string>
+    <string name="no_record">暂无记录</string>
+    <string name="service_channel_name">自动打卡服务</string>
+    <string name="service_channel_description">自动打卡通知</string>
+    <string name="check_in_success">打卡成功</string>
+    <string name="check_in_failed">打卡失败</string>
+
+    <string name="history_title">打卡记录</string>
+    <string name="btn_history">打卡记录</string>
+    <string name="empty_history">暂无打卡记录</string>
+    <string name="notification_settings_title">失败通知设置</string>
+    <string name="notification_phone_hint">通知手机号（可选）</string>
+    <string name="notification_email_hint">通知邮箱（可选）</string>
+    <string name="notification_failure_title">打卡失败</string>
+    <string name="notification_description">打卡失败后会通过系统通知、短信或邮件提醒您</string>
+    <string name="save_notification">保存</string>
+    <string name="notification_saved">通知设置已保存</string>
+
+    <string name="check_in_now">立即打卡</string>
+    <string name="manual_check_in_started">正在启动打卡…</string>
+    <string name="log_title">运行日志</string>
+    <string name="btn_log_viewer">日志</string>
+    <string name="empty_log">暂无日志</string>
+</resources>
