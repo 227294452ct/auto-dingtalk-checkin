@@ -42,6 +42,15 @@
             android:label="@string/log_title"
             android:parentActivityName=".MainActivity" />
 
+        <!-- 透明 Activity，用於喚醒屏幕並解除鎖屏，不對用戶可見 -->
+        <activity
+            android:name=".UnlockHelperActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <service
             android:name=".DingDingAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"

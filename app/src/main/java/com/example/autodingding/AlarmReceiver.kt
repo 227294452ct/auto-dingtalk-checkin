@@ -1,20 +1,13 @@
 package com.example.autodingding
 
-import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
-import android.os.PowerManager
 
 class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
         private const val TAG = "AlarmReceiver"
-        private const val DINGDING_LAUNCH_DELAY_MS = 3000L
-        private const val WAKE_LOCK_TAG = "AutoDingDing:AlarmWakeLock"
-        private const val WAKE_LOCK_TIMEOUT_MS = 10_000L
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -39,22 +32,13 @@ class AlarmReceiver : BroadcastReceiver() {
             return
         }
 
-        wakeAndUnlock(context)
-
-        val launched = CheckInHelper.launchDingDing(context)
-        if (!launched) {
-            LogManager.e(TAG, "Failed to launch DingDing")
-            return
-        }
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            val broadcastIntent = Intent("com.example.autodingding.START_CHECK_IN")
-            broadcastIntent.putExtra("type", alarmType)
-            context.sendBroadcast(broadcastIntent)
-        }, DINGDING_LAUNCH_DELAY_MS)
+        // 啟動解鎖 Activity，後續的啟動釘釘和廣播打卡指令都由它處理
+        launchUnlockActivity(context, alarmType)
 
         rescheduleNext(context)
     }
+
+    // ---- helpers ----
 
     private fun rescheduleNext(context: Context) {
         val rescheduleIntent = Intent(context, AutoCheckInService::class.java).apply {
@@ -76,25 +60,12 @@ class AlarmReceiver : BroadcastReceiver() {
         return storedDate == today
     }
 
-    @Suppress("DEPRECATION")
-    private fun wakeAndUnlock(context: Context) {
-        val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val wakeLock = pm.newWakeLock(
-            PowerManager.SCREEN_BRIGHT_WAKE_LOCK or
-            PowerManager.ACQUIRE_CAUSES_WAKEUP or
-            PowerManager.ON_AFTER_RELEASE,
-            WAKE_LOCK_TAG
-        )
-        wakeLock.acquire(WAKE_LOCK_TIMEOUT_MS)
-
-        try {
-            val km = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            val lock = km.newKeyguardLock(WAKE_LOCK_TAG)
-            lock.disableKeyguard()
-        } catch (e: Exception) {
-            LogManager.w(TAG, "Failed to dismiss keyguard: ${e.message}")
+    private fun launchUnlockActivity(context: Context, alarmType: Int) {
+        val unlockIntent = Intent(context, UnlockHelperActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("type", alarmType)
         }
-
-        LogManager.d(TAG, "Screen woke and keyguard dismissed")
+        context.startActivity(unlockIntent)
+        LogManager.d(TAG, "UnlockHelperActivity launched, type=$alarmType")
     }
 }
